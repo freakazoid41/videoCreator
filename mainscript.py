@@ -75,6 +75,7 @@ def processImage(infile):
         pass # end of sequence
 
 def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
+    print(os.path.abspath(svg_file))
     # Set up a headless Chrome browser
     chrome_options = Options()
     chrome_options.add_argument("--headless")
