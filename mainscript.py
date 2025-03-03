@@ -123,7 +123,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
         loop=0
     )
     print(gif_file+' Created..')
-    shutil.copyfile(output_dir + gif_file, my_dict['main_output'] + gif_file)
+    
     # Clean up
     driver.quit()
     
