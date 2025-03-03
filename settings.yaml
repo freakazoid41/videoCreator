@@ -1,7 +1,8 @@
 json_path : '/var/www/html/dogumgunu.aydemenerji.com.tr/public/birth.json'
-main_output : '/var/www/html/dogumgunu.aydemenerji.com.tr/public/'
+main_output : '/var/www/html/dogumgunu.aydemenerji.com.tr/public/upload/'
 title_svg: title.svg
 date_svg: date.svg
+svg_location : 'https://kutlama.aydemenerji.com.tr/upload/'
 script_title : 'Selam {title}.'
 script_date  : 'Bugün {date}.'
 script1 : 'Yeni Bir Gün İçin Güneş Doğdu, Seninle Birlikte Yükseliyor ve Parlıyor!'

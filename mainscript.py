@@ -6,7 +6,7 @@ from PIL import Image
 from PIL import GifImagePlugin
 import os
 import glob
-import uuid 
+import shutil
 import cv2
 import time
 from selenium import webdriver
@@ -282,9 +282,14 @@ with open(my_dict['json_path'],'r') as f:
             p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day
             p['month'] = p['month'] if 'month'in p else str(datetime.datetime.today().month)
 
-            editSvg(my_dict['title_svg'],'{title}',p['title'])
-            editSvg(my_dict['date_svg'],'{day}',p['day'])
-            editSvg(my_dict['date_svg'],'{month}',p['month'])
+            #copy svgs to public location first
+
+            shutil.copyfile(my_dict['title_svg'], my_dict['main_output'] + my_dict['title_svg'])
+            shutil.copyfile(my_dict['date_svg'], my_dict['main_output'] + my_dict['date_svg']) 
+
+            editSvg(my_dict['main_output'] + my_dict['title_svg'],'{title}',p['title'])
+            editSvg(my_dict['main_output'] + my_dict['date_svg'],'{day}',p['day'])
+            editSvg(my_dict['main_output'] + my_dict['date_svg'],'{month}',p['month'])
 
             for sv in [my_dict['title_svg']]:
                 svg_to_gif(sv, output_dir+my_dict['title_svg']+".gif",1920,1080,80)
@@ -296,9 +301,9 @@ with open(my_dict['json_path'],'r') as f:
                 processImage(output_dir+'/'+my_dict['date_svg']+".gif")
                 #images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
 
-            editSvg(my_dict['title_svg'],p['title']+'</tspan>','{title}'+'</tspan>')
+            '''editSvg(my_dict['title_svg'],p['title']+'</tspan>','{title}'+'</tspan>')
             editSvg(my_dict['date_svg'],p['month']+'</tspan>','{day}'+'</tspan>')
-            editSvg(my_dict['date_svg'],p['day']+'</tspan>','{month}'+'</tspan>')
+            editSvg(my_dict['date_svg'],p['day']+'</tspan>','{month}'+'</tspan>')'''
 
 
 
