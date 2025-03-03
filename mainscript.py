@@ -247,7 +247,7 @@ def createMovie(output = "output.mp4" , title = 'EXP',date = 'EXP'):
   final_clip.write_videofile(output, fps=24, remove_temp=True, audio_codec="aac")
 
 def editSvg(location,key,text):
-    location = os.path.dirname(__file__)+'/'+location
+    #location = os.path.dirname(__file__)+'/'+location
     #read input file
     fin = open(location, "rt")
 
