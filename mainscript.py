@@ -124,7 +124,8 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
 
     # Clean up
     driver.quit()
-    #os.remove('temp.html')
+    shutil.copyfile('temp.html', my_dict['main_output'] + 'temp.html')
+    os.remove('temp.html')
 
 def images_to_mp4(output_file,fps,last_duration):
     base_dir = os.path.realpath("images")
