@@ -1,4 +1,5 @@
 json_path : '/var/www/html/dogumgunu.aydemenerji.com.tr/public/birth.json'
+main_output : '/var/www/html/dogumgunu.aydemenerji.com.tr/public/'
 title_svg: title.svg
 date_svg: date.svg
 script_title : 'Selam {title}.'

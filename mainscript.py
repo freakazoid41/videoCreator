@@ -272,7 +272,7 @@ def editSvg(location,key,text):
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
-    print(d['status'])
+    
     #if new list ready start to creating for persons
     if d['status'] == 'preparing':
 
@@ -312,14 +312,14 @@ with open(my_dict['json_path'],'r') as f:
 
 
             createMovie(
-                filename ,
+                my_dict['main_output']+filename ,
                 my_dict['script_title'].replace("{title}",p['title']) , 
                 my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
 
         #last 
         #write last status to file
-        with open(my_dict['json_path'], 'w') as f:
-            json.dump(d, f)
+        with open(my_dict['json_path'], 'w', encoding='utf8') as f:
+            json.dump(d, f, ensure_ascii=False)
 
    
 
