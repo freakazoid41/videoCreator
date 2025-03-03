@@ -172,7 +172,7 @@ def createSilencePart(duration):
 #this method will create text to speech voice file
 def createVoice(text,output):
   client = ElevenLabs(
-    api_key='sk_58e3e1da548bbe910f47743b21a9f0949cdf7e787a943938',
+    api_key=my_dict['remote_key'],
   )
   audio_stream = client.text_to_speech.convert_as_stream(
       text=text,
@@ -268,10 +268,14 @@ def editSvg(location,key,text):
     fin.close()
 
 #get json file from api folder
-with open(my_dict['json_path']) as f:
+with open(my_dict['json_path'],'w') as f:
     d = json.load(f)
     print(d['status'])
+    if d['status'] == 'preparing':
 
+        d['status'] = 'created'
+        json.dump(data, f)
+    #last 
     '''for p in [{
                 "title" : "Ahmet",
                 "month" : "Ocak",
