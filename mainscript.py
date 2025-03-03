@@ -307,7 +307,7 @@ with open(my_dict['json_path'],'r') as f:
             vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
 
             createMovie(
-                "output-"+(p['outputCode'] if 'outputCode' in p else uuid.uuid1())+".mp4" ,
+                "output-"+(p['outputCode'] if 'outputCode' in p else str(uuid.uuid1()))+".mp4" ,
                 my_dict['script_title'].replace("{title}",p['title']) , 
                 my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
 
