@@ -303,12 +303,12 @@ with open(my_dict['json_path'],'r') as f:
 
 
 
-            vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
+            '''vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
             vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
             
             filename =  "output-"+(p['outputCode'] if 'outputCode' in p else str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')))+".mp4"
 
-            p['filename'] = filename
+            p['filename'] = filename'''
 
 
             createMovie(
