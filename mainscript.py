@@ -80,6 +80,8 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--user-data-dir")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--profile-directory=Default')
     driver = webdriver.Chrome(options=chrome_options)
 
     # Create a simple HTML file to display the SVG
