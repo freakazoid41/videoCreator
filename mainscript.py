@@ -279,10 +279,12 @@ with open(my_dict['json_path'],'r') as f:
 
         d['status'] = 'created'
         for p in d['personList']:
+
             p['title'] = p['title'] if 'title' in p else 'Not Setted'
             p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day
             p['month'] = p['month'] if 'month'in p else str(datetime.datetime.today().month)
 
+            print('transactions is started for => '+p['title'])
             #copy svgs to public location first
 
             shutil.copyfile(my_dict['title_svg'], my_dict['main_output'] + my_dict['title_svg'])
