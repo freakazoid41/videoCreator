@@ -16,7 +16,7 @@ import json
 from natsort import natsorted
 from moviepy import *
 from pydub import AudioSegment
-
+import datetime
 from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
@@ -276,23 +276,10 @@ with open(my_dict['json_path'],'r') as f:
     if d['status'] == 'preparing':
 
         d['status'] = 'created'
-        for row in d['personList']:
-            print(row)
-       
-    
-        '''for p in [{
-                    "title" : "Ahmet",
-                    "month" : "Ocak",
-                    "day"   : '12'
-                },{
-                    "title" : "Kadir",
-                    "month" : "Aralık",
-                    "day"   : '22'
-                }]:
-
-            editSvg(my_dict['title_svg'],'{title}',p['title'])
-            editSvg(my_dict['date_svg'],'{day}',p['day'])
-            editSvg(my_dict['date_svg'],'{month}',p['month'])
+        for p in d['personList']:
+            editSvg(my_dict['title_svg'],'{title}',p['title'] if 'title' in p else 'Not Setted')
+            editSvg(my_dict['date_svg'],'{day}',p['day'] if 'day'in p else datetime.datetime.today().day)
+            editSvg(my_dict['date_svg'],'{month}',p['month'] if 'month'in p else str(datetime.datetime.today().month))
 
             for sv in [my_dict['title_svg']]:
                 svg_to_gif(sv, output_dir+my_dict['title_svg']+".gif",1920,1080,80)
@@ -304,9 +291,9 @@ with open(my_dict['json_path'],'r') as f:
                 processImage(output_dir+'/'+my_dict['date_svg']+".gif")
                 images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
 
-            editSvg(my_dict['title_svg'],p['title']+'</tspan>','{title}'+'</tspan>')
-            editSvg(my_dict['date_svg'],p['day']+'</tspan>','{day}'+'</tspan>')
-            editSvg(my_dict['date_svg'],p['month']+'</tspan>','{month}'+'</tspan>')
+            editSvg(my_dict['title_svg'],p['title'] if 'title' in p else 'Not Setted'+'</tspan>','{title}'+'</tspan>')
+            editSvg(my_dict['date_svg'],p['month'] if 'month'in p else datetime.datetime.today().month+'</tspan>','{day}'+'</tspan>')
+            editSvg(my_dict['date_svg'],p['day'] if 'day'in p else datetime.datetime.today().day+'</tspan>','{month}'+'</tspan>')
 
 
 
@@ -314,7 +301,7 @@ with open(my_dict['json_path'],'r') as f:
             vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
             vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
 
-            createMovie("output-"+p['title']+".mp4" , my_dict['script_title'].replace("{title}",p['title']) , my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))'''
+            createMovie("output-"+p['title']+".mp4" , my_dict['script_title'].replace("{title}",p['title']) , my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
 
         #last 
         #write last status to file
