@@ -268,14 +268,18 @@ def editSvg(location,key,text):
     fin.close()
 
 #get json file from api folder
-with open(my_dict['json_path'],'r+') as f:
+with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
+    f.close()
     print(d['status'])
     if d['status'] == 'preparing':
 
         d['status'] = 'created'
-        json.dump(d, f)
-        f.close()
+        
+
+
+        with open(my_dict['json_path'], 'w') as f:
+            json.dump(d, f)
     #last 
     '''for p in [{
                 "title" : "Ahmet",
