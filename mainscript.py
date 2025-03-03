@@ -289,12 +289,12 @@ with open(my_dict['json_path'],'r') as f:
             for sv in [my_dict['title_svg']]:
                 svg_to_gif(sv, output_dir+my_dict['title_svg']+".gif",1920,1080,80)
                 processImage(output_dir+my_dict['title_svg']+".gif")
-                images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
+                #images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
 
             for sv in [my_dict['date_svg']]:
                 svg_to_gif(sv, output_dir+'/'+my_dict['date_svg']+".gif",1920,1080,80)
                 processImage(output_dir+'/'+my_dict['date_svg']+".gif")
-                images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
+                #images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
 
             editSvg(my_dict['title_svg'],p['title']+'</tspan>','{title}'+'</tspan>')
             editSvg(my_dict['date_svg'],p['month']+'</tspan>','{day}'+'</tspan>')
