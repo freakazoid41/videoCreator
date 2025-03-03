@@ -275,6 +275,7 @@ with open(my_dict['json_path'],'r+') as f:
 
         d['status'] = 'created'
         f.write(json.dumps(d))
+        f.close()
     #last 
     '''for p in [{
                 "title" : "Ahmet",
