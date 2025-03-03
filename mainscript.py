@@ -306,7 +306,7 @@ with open(my_dict['json_path'],'r') as f:
                 svg_to_gif(sv,my_dict['date_svg']+".gif",1920,1080,80)
                 processImage(output_dir+'/'+my_dict['date_svg']+".gif")
                 images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
-
+            #we sended them to public folder so no need to update mail files
             '''editSvg(my_dict['title_svg'],p['title']+'</tspan>','{title}'+'</tspan>')
             editSvg(my_dict['date_svg'],p['month']+'</tspan>','{day}'+'</tspan>')
             editSvg(my_dict['date_svg'],p['day']+'</tspan>','{month}'+'</tspan>')'''
