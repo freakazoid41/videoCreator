@@ -273,10 +273,11 @@ def editSvg(location,key,text):
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
-    
+   
     #if new list ready start to creating for persons
     if d['status'] == 'preparing':
-
+        start_time = datetime.datetime.now()
+        
         d['status'] = 'created'
         for p in d['personList']:
 
@@ -325,6 +326,8 @@ with open(my_dict['json_path'],'r') as f:
                 my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
 
         #last 
+        end_time = datetime.now()
+        d['Dutarion'] = str(end_time - start_time)
         #write last status to file
         with open(my_dict['json_path'], 'w', encoding='utf8') as f:
             json.dump(d, f, ensure_ascii=False)
