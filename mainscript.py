@@ -22,8 +22,8 @@ from elevenlabs.client import ElevenLabs
 from elevenlabs import play
 
 
-output_dir = 'alphavideos/'
-audio_output_dir = 'audios/'
+output_dir = os.path.dirname(__file__)+'/alphavideos/'
+audio_output_dir = os.path.dirname(__file__)+'/audios/'
 
 with open(os.path.dirname(__file__)+'/settings.yaml') as f:
     my_dict = yaml.safe_load(f)
@@ -246,6 +246,7 @@ def createMovie(output = "output.mp4" , title = 'EXP',date = 'EXP'):
   final_clip.write_videofile(output, fps=24, remove_temp=True, audio_codec="aac")
 
 def editSvg(location,key,text):
+    location = os.path.dirname(__file__)+'/'+location
     #read input file
     fin = open(location, "rt")
 
