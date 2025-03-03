@@ -116,14 +116,14 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
 
     # Save as GIF
     frame_images[0].save(
-        gif_file,
+        output_dir + gif_file,
         save_all=True,
         append_images=frame_images[1:],
         duration=frame_duration,
         loop=0
     )
     print(gif_file+' Created..')
-    shutil.copyfile(gif_file, my_dict['main_output'] + gif_file)
+    shutil.copyfile(output_dir + gif_file, my_dict['main_output'] + gif_file)
     # Clean up
     driver.quit()
     
@@ -298,12 +298,12 @@ with open(my_dict['json_path'],'r') as f:
             editSvg(my_dict['main_output'] + my_dict['date_svg'],'{month}',p['month'])
 
             for sv in [my_dict['title_svg']]:
-                svg_to_gif(sv, output_dir+my_dict['title_svg']+".gif",1920,1080,80)
+                svg_to_gif(sv,my_dict['title_svg']+".gif",1920,1080,80)
                 processImage(output_dir+my_dict['title_svg']+".gif")
                 images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
 
             for sv in [my_dict['date_svg']]:
-                svg_to_gif(sv, output_dir+'/'+my_dict['date_svg']+".gif",1920,1080,80)
+                svg_to_gif(sv,my_dict['date_svg']+".gif",1920,1080,80)
                 processImage(output_dir+'/'+my_dict['date_svg']+".gif")
                 images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
 
