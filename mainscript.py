@@ -122,7 +122,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
         duration=frame_duration,
         loop=0
     )
-
+    shutil.copyfile(gif_file, my_dict['main_output'] + gif_file)
     # Clean up
     driver.quit()
     
