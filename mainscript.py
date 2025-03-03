@@ -92,9 +92,10 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     """
     with open('temp.html', 'w') as f:
         f.write(html_content)
-
+    
+    shutil.copyfile('temp.html', my_dict['main_output'] + 'temp.html')
     # Open the HTML file in the browser
-    driver.get(f"file:///{os.path.abspath('temp.html')}")
+    driver.get(my_dict['svg_location']+"temp.html")
     driver.set_window_size(width, height)
 
     # Capture frames
@@ -124,7 +125,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
 
     # Clean up
     driver.quit()
-    shutil.copyfile('temp.html', my_dict['main_output'] + 'temp.html')
+    
     os.remove('temp.html')
 
 def images_to_mp4(output_file,fps,last_duration):
