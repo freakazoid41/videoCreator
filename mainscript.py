@@ -329,7 +329,7 @@ with open(my_dict['json_path'],'r') as f:
 
         #last 
         end_time = datetime.datetime.now()
-        d['Dutarion'] = str(end_time - start_time)
+        d['Duration'] = str(end_time - start_time)
         #write last status to file
         with open(my_dict['json_path'], 'w', encoding='utf8') as f:
             json.dump(d, f, ensure_ascii=False)
