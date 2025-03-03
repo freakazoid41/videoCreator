@@ -141,7 +141,6 @@ def images_to_mp4(output_file,fps,last_duration):
    
     concat_clip.write_videofile(output_file, fps=fps,threads=1, codec="libvpx",bitrate="50000k")
 
-
 #set alpha videos to main videos
 def vdo_with_alpha(lowerThird = None, videoFile=None, outputFile= None):
     tmpVid = cv2.VideoCapture(videoFile)
