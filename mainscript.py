@@ -274,6 +274,7 @@ with open(my_dict['json_path'],'r+') as f:
     if d['status'] == 'preparing':
 
         d['status'] = 'created'
+        print(json.dumps(d))
         f.write(json.dumps(d))
         f.close()
     #last 
