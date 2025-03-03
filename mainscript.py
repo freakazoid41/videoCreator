@@ -276,10 +276,11 @@ with open(my_dict['json_path'],'r') as f:
     if d['status'] == 'preparing':
 
         d['status'] = 'created'
-        
+        for row in d['personList']:
+            print(row)
        
     
-        for p in [{
+        '''for p in [{
                     "title" : "Ahmet",
                     "month" : "Ocak",
                     "day"   : '12'
@@ -313,7 +314,7 @@ with open(my_dict['json_path'],'r') as f:
             vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
             vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
 
-            createMovie("output-"+p['title']+".mp4" , my_dict['script_title'].replace("{title}",p['title']) , my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
+            createMovie("output-"+p['title']+".mp4" , my_dict['script_title'].replace("{title}",p['title']) , my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))'''
 
         #last 
         #write last status to file
