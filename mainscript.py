@@ -92,7 +92,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     """
     with open('temp.html', 'w') as f:
         f.write(html_content)
-    
+    # we are sending html to public address because of permission problems (normally we can use from local folder but it didn't work)
     shutil.copyfile('temp.html', my_dict['main_output'] + 'temp.html')
     # Open the HTML file in the browser
     driver.get(my_dict['svg_location']+"temp.html")
@@ -289,7 +289,7 @@ with open(my_dict['json_path'],'r') as f:
 
             print('transactions is started for => '+p['title'])
             #copy svgs to public location first
-
+            # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
             shutil.copyfile(my_dict['title_svg'], my_dict['main_output'] + my_dict['title_svg'])
             shutil.copyfile(my_dict['date_svg'], my_dict['main_output'] + my_dict['date_svg']) 
 
