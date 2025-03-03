@@ -86,7 +86,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     html_content = f"""
     <html>
     <body style="margin:0;padding:0;overflow:hidden;">
-        <object data="file:///{os.path.abspath(svg_file)}" width="1920" height="1080"></object>
+        <object data="{my_dict['svg_location'] + svg_file}" width="1920" height="1080"></object>
     </body>
     </html>
     """
