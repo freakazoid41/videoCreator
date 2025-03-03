@@ -270,7 +270,7 @@ def editSvg(location,key,text):
 #get json file from api folder
 with open(my_dict['json_path']) as f:
     d = json.load(f)
-    print(d)
+    print(d['status'])
 
     '''for p in [{
                 "title" : "Ahmet",
