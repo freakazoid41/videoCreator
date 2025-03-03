@@ -284,9 +284,9 @@ for p in [{
     editSvg(my_dict['date_svg'],'{month}',p['month'])
 
     for sv in [my_dict['title_svg']]:
-        svg_to_gif(sv, output_dir+'/'+my_dict['title_svg']+".gif",1920,1080,80)
-        processImage(output_dir+'/'+my_dict['title_svg']+".gif")
-        images_to_mp4(output_dir+'/'+my_dict['title_svg']+'alpha.webm',60,10)
+        svg_to_gif(sv, output_dir+my_dict['title_svg']+".gif",1920,1080,80)
+        processImage(output_dir+my_dict['title_svg']+".gif")
+        images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
 
     for sv in [my_dict['date_svg']]:
         svg_to_gif(sv, output_dir+'/'+my_dict['date_svg']+".gif",1920,1080,80)
@@ -300,8 +300,8 @@ for p in [{
 
 
 
-    vdo_with_alpha(output_dir+'/'+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
-    vdo_with_alpha(output_dir+'/'+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
+    vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
+    vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
 
     createMovie("output-"+p['title']+".mp4" , my_dict['script_title'].replace("{title}",p['title']) , my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
 
