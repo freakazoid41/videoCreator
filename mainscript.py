@@ -271,10 +271,10 @@ def editSvg(location,key,text):
 with open(my_dict['json_path'],'r+') as f:
     d = json.load(f)
     print(d['status'])
-    '''if d['status'] == 'preparing':
+    if d['status'] == 'preparing':
 
         d['status'] = 'created'
-        f.write(d)'''
+        f.write(d)
     #last 
     '''for p in [{
                 "title" : "Ahmet",
