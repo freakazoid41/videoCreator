@@ -25,7 +25,7 @@ from elevenlabs import play
 output_dir = 'alphavideos/'
 audio_output_dir = 'audios/'
 
-with open('project/settings.yaml') as f:
+with open(os.path.dirname(__file__)+'/settings.yaml') as f:
     my_dict = yaml.safe_load(f)
 
 def processImage(infile):
