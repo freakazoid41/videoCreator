@@ -271,16 +271,23 @@ def editSvg(location,key,text):
     #close the file
     fin.close()
 
+def updateStatus(d):
+    with open(my_dict['json_path'], 'w', encoding='utf8') as f:
+        json.dump(d, f, ensure_ascii=False)
+
 #get json file from api folder
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
    
     #if new list ready start to creating for persons
-    if d['status'] == 'preparing':
+    if d['status'] == 'waiting':
         start_time = datetime.datetime.now()
+        #set status as started
+        d['status'] = 'preparing'
+        updateStatus(d)
+
         
-        d['status'] = 'created'
         for p in d['personList']:
 
             p['title'] = p['title'] if 'title' in p else 'Not Setted'
@@ -326,13 +333,16 @@ with open(my_dict['json_path'],'r') as f:
                 my_dict['main_output']+filename ,
                 my_dict['script_title'].replace("{title}",p['title']) , 
                 my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
+            
+            #update status of json for info
+            updateStatus(d)
 
         #last 
         end_time = datetime.datetime.now()
         d['Duration'] = str(end_time - start_time)
         #write last status to file
-        with open(my_dict['json_path'], 'w', encoding='utf8') as f:
-            json.dump(d, f, ensure_ascii=False)
+        d['status'] = 'ended'
+        updateStatus(d)
 
    
 
