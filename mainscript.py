@@ -32,7 +32,7 @@ def processImage(infile):
     try:
         im = Image.open(infile)
 
-        files = glob.glob('images/*')
+        files = glob.glob(os.path.dirname(os.path.realpath(__file__))+'/images/*')
         for f in files:
             os.remove(f)
 
@@ -46,7 +46,7 @@ def processImage(infile):
     try:
         while 1:
 
-            path = 'images/foo'+str(i)+'.png'
+            path = os.path.dirname(os.path.realpath(__file__))+'/images/foo'+str(i)+'.png'
             #im.putpalette(mypalette)
             new_im = Image.new("RGBA", im.size)
             new_im.paste(im)
