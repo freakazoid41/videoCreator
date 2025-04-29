@@ -75,7 +75,7 @@ def processImage(infile):
         pass # end of sequence
 
 def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
-    print(os.path.abspath(svg_file))
+    
     # Set up a headless Chrome browser
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -135,16 +135,16 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     os.remove('temp.html')
 
 def images_to_mp4(output_file,fps,last_duration):
-    base_dir = os.path.realpath("images")
+    base_dir = os.path.dirname(os.path.realpath(__file__))+'/images'
     
-    filenames = next(os.walk('images'), (None, None, []))[2]  # [] if no file
+    filenames = next(os.walk(base_dir), (None, None, []))[2]  # [] if no file
     
     file_list_sorted = natsorted(filenames,reverse=False)  # Sort the images
     
-    clips = [ImageClip('images/'+m).with_duration(0.05)
+    clips = [ImageClip(base_dir+'/'+m).with_duration(0.05)
             for m in file_list_sorted]
 
-    clips.append(ImageClip('images/'+file_list_sorted[-1]).with_duration(last_duration))
+    clips.append(ImageClip(base_dir+'/'+file_list_sorted[-1]).with_duration(last_duration))
 
     concat_clip = concatenate_videoclips(clips, method="compose")
    
