@@ -369,6 +369,8 @@ with open(my_dict['json_path'],'r') as f:
 
         #unset lock file
         #setLockFile(False)
+    else :
+        print('Cron Still Locked ....')    
 
    
 
