@@ -294,11 +294,6 @@ with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
 
-    print(os.getcwd())
-
-    exit()
-
-    
     #if new list ready start to creating for persons
     if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
         #set lock file 
@@ -328,8 +323,8 @@ with open(my_dict['json_path'],'r') as f:
                 titleCopy = my_dict['main_output'] + my_dict['title_svg']
                 dateCopy  = my_dict['main_output'] + my_dict['date_svg']
 
-                shutil.copyfile(my_dict['title_svg'], titleCopy)
-                shutil.copyfile(my_dict['date_svg'], dateCopy) 
+                shutil.copyfile(os.getcwd()+'/'+my_dict['title_svg'], titleCopy)
+                shutil.copyfile(os.getcwd()+'/'+my_dict['date_svg'], dateCopy) 
                 
                 #we sended them to public folder so no need to update mail files
                 editSvg(titleCopy,'{title}',p['title'])
