@@ -279,7 +279,7 @@ def updateStatus(d):
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
-   
+    print(d)
     #if new list ready start to creating for persons
     if d['status'] == 'waiting':
         start_time = datetime.datetime.now()
