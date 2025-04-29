@@ -293,6 +293,11 @@ def setLockFile(lock = True):
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
+
+    print(os.getcwd())
+
+    exit()
+
     
     #if new list ready start to creating for persons
     if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
@@ -320,24 +325,34 @@ with open(my_dict['json_path'],'r') as f:
                 print('transactions is started for => '+p['title'])
                 #copy svgs to public location first
                 # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
-                shutil.copyfile(my_dict['title_svg'], my_dict['main_output'] + my_dict['title_svg'])
-                shutil.copyfile(my_dict['date_svg'], my_dict['main_output'] + my_dict['date_svg']) 
+                titleCopy = my_dict['main_output'] + my_dict['title_svg']
+                dateCopy  = my_dict['main_output'] + my_dict['date_svg']
+
+                shutil.copyfile(my_dict['title_svg'], titleCopy)
+                shutil.copyfile(my_dict['date_svg'], dateCopy) 
                 
                 #we sended them to public folder so no need to update mail files
-                editSvg(my_dict['main_output'] + my_dict['title_svg'],'{title}',p['title'])
-                editSvg(my_dict['main_output'] + my_dict['date_svg'],'{day}',p['day'])
-                editSvg(my_dict['main_output'] + my_dict['date_svg'],'{month}',p['month'])
+                editSvg(titleCopy,'{title}',p['title'])
+                editSvg(dateCopy,'{day}',p['day'])
+                editSvg(dateCopy,'{month}',p['month'])
 
-                for sv in [my_dict['title_svg']]:
-                    svg_to_gif(sv,my_dict['title_svg']+".gif",1920,1080,80)
-                    processImage(output_dir+my_dict['title_svg']+".gif")
-                    images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
-
-                for sv in [my_dict['date_svg']]:
-                    svg_to_gif(sv,my_dict['date_svg']+".gif",1920,1080,80)
-                    processImage(output_dir+'/'+my_dict['date_svg']+".gif")
-                    images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
                 
+                '''svg_to_gif(my_dict['title_svg'],my_dict['title_svg']+".gif",1920,1080,80)
+                processImage(output_dir+my_dict['title_svg']+".gif")
+                images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)'''
+
+                
+                '''svg_to_gif(my_dict['date_svg'],my_dict['date_svg']+".gif",1920,1080,80)
+                processImage(output_dir+'/'+my_dict['date_svg']+".gif")
+                images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)'''
+
+                #turn svg's to gif then make them alpha video
+                for sv in [my_dict['title_svg'],my_dict['date_svg']]:
+                    svg_to_gif(sv,sv+".gif",1920,1080,80)
+                    processImage(output_dir+'/'+sv+".gif")
+                    images_to_mp4(output_dir+'/'+sv+'alpha.webm',60,10)
+                
+                #merge alpha videos with video parts
                 vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
                 vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
                 
