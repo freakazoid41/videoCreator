@@ -205,7 +205,7 @@ def createMovie(output = "output.mp4" , title = 'EXP',date = 'EXP'):
   # video combine
   L = []
 
-  files = ["dogumgunu-video1-edited.mp4","dogumgunu-video2-edited.mp4","videos/dogumgunu-video3.mp4"]
+  files = [script_dir+"/dogumgunu-video1-edited.mp4",script_dir+"/dogumgunu-video2-edited.mp4",script_dir+"/videos/dogumgunu-video3.mp4"]
   for file in files:
       if os.path.splitext(file)[1] == '.mp4':
           filePath = file
