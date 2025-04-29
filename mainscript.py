@@ -21,7 +21,7 @@ import datetime
 from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
-
+import tempfile
 
 output_dir = os.path.dirname(__file__)+'/alphavideos/'
 audio_output_dir = os.path.dirname(__file__)+'/audios/'
@@ -81,6 +81,10 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
+
+    user_data_dir = tempfile.mkdtemp()
+    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+
     driver = webdriver.Chrome(options=chrome_options)
 
     # Create a simple HTML file to display the SVG
