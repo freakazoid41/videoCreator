@@ -279,6 +279,7 @@ def editSvg(location,key,text):
 def updateStatus(d):
     with open(my_dict['json_path'], 'w', encoding='utf8') as f:
         json.dump(d, f, ensure_ascii=False)
+
 def setLockFile(lock = True):
     if lock :
         with open(my_dict['json_path']+'.lock', 'w', encoding='utf8') as f:
@@ -297,7 +298,8 @@ with open(my_dict['json_path'],'r') as f:
     #if new list ready start to creating for persons
     if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
         #set lock file 
-        
+        setLockFile(True)
+        exit()
         d['status'] = 'ended' ## if all videos are ended left as it is 
         
         for p in d['personList']:
@@ -364,8 +366,9 @@ with open(my_dict['json_path'],'r') as f:
         #write last status to file
         
         updateStatus(d) # change last status as  ended if all list is finished
-    
+
         #unset lock file
+        #setLockFile(False)
 
    
 
