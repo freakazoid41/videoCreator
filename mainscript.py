@@ -293,7 +293,7 @@ def setLockFile(lock = True):
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
-    print(os.path.dirname(os.path.realpath(__file__))+'/'+my_dict['title_svg'])
+    shutil.copyfile(os.path.dirname(os.path.realpath(__file__))+'/'+my_dict['title_svg'], titleCopy)
     exit()
     #if new list ready start to creating for persons
     if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
