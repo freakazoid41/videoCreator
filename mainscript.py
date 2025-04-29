@@ -368,7 +368,7 @@ with open(my_dict['json_path'],'r') as f:
         updateStatus(d) # change last status as  ended if all list is finished
 
         #unset lock file
-        #setLockFile(False)
+        setLockFile(False)
     else :
         print('Cron Still Locked ....')    
 
