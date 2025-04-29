@@ -22,10 +22,10 @@ from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
 
-output_dir = os.path.dirname(__file__)+'/alphavideos/'
-audio_output_dir = os.path.dirname(__file__)+'/audios/'
+output_dir = os.path.dirname(os.path.realpath(__file__))+'/alphavideos/'
+audio_output_dir = os.path.dirname(os.path.realpath(__file__))+'/audios/'
 
-with open(os.path.dirname(__file__)+'/settings.yaml') as f:
+with open(os.path.dirname(os.path.realpath(__file__))+'/settings.yaml') as f:
     my_dict = yaml.safe_load(f)
 
 def processImage(infile):
