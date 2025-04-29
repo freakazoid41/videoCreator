@@ -79,11 +79,11 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     # Set up a headless Chrome browser
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument('--profile-directory=Default')
+    #chrome_options.add_argument("--no-sandbox")
+    #chrome_options.add_argument('--profile-directory=Default')
 
    
-    chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data")
+    #chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data")
 
     driver = webdriver.Chrome(options=chrome_options)
 
@@ -344,7 +344,7 @@ with open(my_dict['json_path'],'r') as f:
 
                     #turn svg's to gif then make them alpha video
                     for sv in [my_dict['title_svg'],my_dict['date_svg']]:
-                        svg_to_gif(os.path.dirname(os.path.realpath(__file__))+'/'+sv,sv+".gif",1920,1080,80)
+                        svg_to_gif(sv,sv+".gif",1920,1080,80)
                         processImage(output_dir+'/'+sv+".gif")
                         images_to_mp4(output_dir+'/'+sv+'alpha.webm',60,10)
                     
