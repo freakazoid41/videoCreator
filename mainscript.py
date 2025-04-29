@@ -279,75 +279,92 @@ def editSvg(location,key,text):
 def updateStatus(d):
     with open(my_dict['json_path'], 'w', encoding='utf8') as f:
         json.dump(d, f, ensure_ascii=False)
+def setLockFile(lock = True):
+    if lock :
+        with open(my_dict['json_path']+'.lock', 'w', encoding='utf8') as f:
+            json.dump('{"locked" : "true"}', f, ensure_ascii=False)
+    else : 
+        os.remove(my_dict['json_path']+'.lock')
+
+
 
 #get json file from api folder
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
-    print(d)
+    
+    
     #if new list ready start to creating for persons
-    if d['status'] == 'waiting':
-        start_time = datetime.datetime.now()
-        #set status as started
-        d['status'] = 'preparing'
-        updateStatus(d)
-
+    if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
+        #set lock file 
+        
+        d['status'] = 'ended' ## if all videos are ended left as it is 
         
         for p in d['personList']:
 
-            p['title'] = p['title'] if 'title' in p else 'Not Setted'
-            p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day
-            p['month'] = p['month'] if 'month'in p else str(datetime.datetime.today().month)
+            if 'status' not in p:
+                
 
-            print('transactions is started for => '+p['title'])
-            #copy svgs to public location first
-            # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
-            shutil.copyfile(my_dict['title_svg'], my_dict['main_output'] + my_dict['title_svg'])
-            shutil.copyfile(my_dict['date_svg'], my_dict['main_output'] + my_dict['date_svg']) 
+                start_time = datetime.datetime.now()
+                #set status as working
+                d['status'] = 'preparing' # update script list status
+                #updateStatus(d)
 
-            editSvg(my_dict['main_output'] + my_dict['title_svg'],'{title}',p['title'])
-            editSvg(my_dict['main_output'] + my_dict['date_svg'],'{day}',p['day'])
-            editSvg(my_dict['main_output'] + my_dict['date_svg'],'{month}',p['month'])
+                p['title'] = p['title'] if 'title' in p else 'Not Setted'
+                p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day # on aydem side of the project check this value for mail sending..
+                p['month'] = p['month'] if 'month'in p else str(datetime.datetime.today().month)
 
-            for sv in [my_dict['title_svg']]:
-                svg_to_gif(sv,my_dict['title_svg']+".gif",1920,1080,80)
-                processImage(output_dir+my_dict['title_svg']+".gif")
-                images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
+                print('transactions is started for => '+p['title'])
+                #copy svgs to public location first
+                # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
+                shutil.copyfile(my_dict['title_svg'], my_dict['main_output'] + my_dict['title_svg'])
+                shutil.copyfile(my_dict['date_svg'], my_dict['main_output'] + my_dict['date_svg']) 
+                
+                #we sended them to public folder so no need to update mail files
+                editSvg(my_dict['main_output'] + my_dict['title_svg'],'{title}',p['title'])
+                editSvg(my_dict['main_output'] + my_dict['date_svg'],'{day}',p['day'])
+                editSvg(my_dict['main_output'] + my_dict['date_svg'],'{month}',p['month'])
 
-            for sv in [my_dict['date_svg']]:
-                svg_to_gif(sv,my_dict['date_svg']+".gif",1920,1080,80)
-                processImage(output_dir+'/'+my_dict['date_svg']+".gif")
-                images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
-            #we sended them to public folder so no need to update mail files
-            '''editSvg(my_dict['title_svg'],p['title']+'</tspan>','{title}'+'</tspan>')
-            editSvg(my_dict['date_svg'],p['month']+'</tspan>','{day}'+'</tspan>')
-            editSvg(my_dict['date_svg'],p['day']+'</tspan>','{month}'+'</tspan>')'''
+                for sv in [my_dict['title_svg']]:
+                    svg_to_gif(sv,my_dict['title_svg']+".gif",1920,1080,80)
+                    processImage(output_dir+my_dict['title_svg']+".gif")
+                    images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)
+
+                for sv in [my_dict['date_svg']]:
+                    svg_to_gif(sv,my_dict['date_svg']+".gif",1920,1080,80)
+                    processImage(output_dir+'/'+my_dict['date_svg']+".gif")
+                    images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)
+                
+                vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
+                vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
+                
+                filename =  "output-"+(p['outputCode'] if 'outputCode' in p else str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')))+".mp4"
+
+                p['filename'] = filename
 
 
+                createMovie(
+                    my_dict['main_output']+filename ,
+                    my_dict['script_title'].replace("{title}",p['title']) , 
+                    my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
+                
+                #update status of json for info
+                end_time = datetime.datetime.now()
+                p['duration'] = str(end_time - start_time)
+                p['status'] = 'ready'
+                #updateStatus(d)
 
-
-            vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
-            vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
+                break ## always work for only one row and exit 
             
-            filename =  "output-"+(p['outputCode'] if 'outputCode' in p else str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')))+".mp4"
-
-            p['filename'] = filename
-
-
-            createMovie(
-                my_dict['main_output']+filename ,
-                my_dict['script_title'].replace("{title}",p['title']) , 
-                my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
-            
-            #update status of json for info
-            updateStatus(d)
 
         #last 
-        end_time = datetime.datetime.now()
-        d['Duration'] = str(end_time - start_time)
+        #end_time = datetime.datetime.now()
+        #d['Duration'] = str(end_time - start_time)
         #write last status to file
-        d['status'] = 'ended'
-        updateStatus(d)
+        
+        updateStatus(d) # change last status as  ended if all list is finished
+    
+        #unset lock file
 
    
 
