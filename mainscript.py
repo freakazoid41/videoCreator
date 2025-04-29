@@ -299,7 +299,7 @@ with open(my_dict['json_path'],'r') as f:
         #set lock file 
         print('Cron Started..')
         setLockFile(True)
-        exit()
+        
         d['status'] = 'ended' ## if all videos are ended left as it is 
         
         for p in d['personList']:
