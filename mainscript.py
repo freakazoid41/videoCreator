@@ -307,68 +307,72 @@ with open(my_dict['json_path'],'r') as f:
 
             if 'status' not in p:
                 
+                try:
 
-                start_time = datetime.datetime.now()
-                #set status as working
-                p['status'] = 'preparing'
-                d['status'] = 'preparing' # update script list status
-                updateStatus(d)
+                    start_time = datetime.datetime.now()
+                    #set status as working
+                    p['status'] = 'preparing'
+                    d['status'] = 'preparing' # update script list status
+                    updateStatus(d)
 
-                p['title'] = p['title'] if 'title' in p else 'Not Setted'
-                p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day # on aydem side of the project check this value for mail sending..
-                p['month'] = p['month'] if 'month'in p else str(datetime.datetime.today().month)
+                    p['title'] = p['title'] if 'title' in p else 'Not Setted'
+                    p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day # on aydem side of the project check this value for mail sending..
+                    p['month'] = p['month'] if 'month'in p else str(datetime.datetime.today().month)
 
-                print('transactions is started for => '+p['title'])
-                #copy svgs to public location first
-                # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
-                titleCopy = my_dict['main_output'] + my_dict['title_svg']
-                dateCopy  = my_dict['main_output'] + my_dict['date_svg']
+                    print('transactions is started for => '+p['title'])
+                    #copy svgs to public location first
+                    # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
+                    titleCopy = my_dict['main_output'] + my_dict['title_svg']
+                    dateCopy  = my_dict['main_output'] + my_dict['date_svg']
 
-                shutil.copyfile(os.getcwd()+'/'+my_dict['title_svg'], titleCopy)
-                shutil.copyfile(os.getcwd()+'/'+my_dict['date_svg'], dateCopy) 
-                
-                #we sended them to public folder so no need to update mail files
-                editSvg(titleCopy,'{title}',p['title'])
-                editSvg(dateCopy,'{day}',p['day'])
-                editSvg(dateCopy,'{month}',p['month'])
+                    shutil.copyfile(os.getcwd()+'/'+my_dict['title_svg'], titleCopy)
+                    shutil.copyfile(os.getcwd()+'/'+my_dict['date_svg'], dateCopy) 
+                    
+                    #we sended them to public folder so no need to update mail files
+                    editSvg(titleCopy,'{title}',p['title'])
+                    editSvg(dateCopy,'{day}',p['day'])
+                    editSvg(dateCopy,'{month}',p['month'])
 
-                
-                '''svg_to_gif(my_dict['title_svg'],my_dict['title_svg']+".gif",1920,1080,80)
-                processImage(output_dir+my_dict['title_svg']+".gif")
-                images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)'''
+                    
+                    '''svg_to_gif(my_dict['title_svg'],my_dict['title_svg']+".gif",1920,1080,80)
+                    processImage(output_dir+my_dict['title_svg']+".gif")
+                    images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)'''
 
-                
-                '''svg_to_gif(my_dict['date_svg'],my_dict['date_svg']+".gif",1920,1080,80)
-                processImage(output_dir+'/'+my_dict['date_svg']+".gif")
-                images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)'''
+                    
+                    '''svg_to_gif(my_dict['date_svg'],my_dict['date_svg']+".gif",1920,1080,80)
+                    processImage(output_dir+'/'+my_dict['date_svg']+".gif")
+                    images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)'''
 
-                #turn svg's to gif then make them alpha video
-                for sv in [my_dict['title_svg'],my_dict['date_svg']]:
-                    svg_to_gif(sv,sv+".gif",1920,1080,80)
-                    processImage(output_dir+'/'+sv+".gif")
-                    images_to_mp4(output_dir+'/'+sv+'alpha.webm',60,10)
-                
-                #merge alpha videos with video parts
-                vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
-                vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
-                
-                filename =  "output-"+(p['outputCode'] if 'outputCode' in p else str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')))+".mp4"
+                    #turn svg's to gif then make them alpha video
+                    for sv in [my_dict['title_svg'],my_dict['date_svg']]:
+                        svg_to_gif(sv,sv+".gif",1920,1080,80)
+                        processImage(output_dir+'/'+sv+".gif")
+                        images_to_mp4(output_dir+'/'+sv+'alpha.webm',60,10)
+                    
+                    #merge alpha videos with video parts
+                    vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
+                    vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
+                    
+                    filename =  "output-"+(p['outputCode'] if 'outputCode' in p else str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')))+".mp4"
 
-                p['filename'] = filename
+                    p['filename'] = filename
 
 
-                createMovie(
-                    my_dict['main_output']+filename ,
-                    my_dict['script_title'].replace("{title}",p['title']) , 
-                    my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
-                
-                #update status of json for info
-                end_time = datetime.datetime.now()
-                p['duration'] = str(end_time - start_time)
-                p['status'] = 'ready'
-                #updateStatus(d)
+                    createMovie(
+                        my_dict['main_output']+filename ,
+                        my_dict['script_title'].replace("{title}",p['title']) , 
+                        my_dict['script_date'].replace("{date}",p['day']+' '+p['month']))
+                    
+                    #update status of json for info
+                    end_time = datetime.datetime.now()
+                    p['duration'] = str(end_time - start_time)
+                    p['status'] = 'ready'
+                    #updateStatus(d)
 
-                break ## always work for only one row and exit 
+                    break ## always work for only one row and exit 
+                except:
+                    del p['status']
+                    updateStatus(d)
             
 
         #last 
