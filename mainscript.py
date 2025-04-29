@@ -22,17 +22,19 @@ from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
 
-output_dir = os.path.dirname(os.path.realpath(__file__))+'/alphavideos/'
-audio_output_dir = os.path.dirname(os.path.realpath(__file__))+'/audios/'
 
-with open(os.path.dirname(os.path.realpath(__file__))+'/settings.yaml') as f:
+script_dir = os.path.dirname(os.path.realpath(__file__))
+output_dir = script_dir+'/alphavideos/'
+audio_output_dir = script_dir+'/audios/'
+
+with open(script_dir+'/settings.yaml') as f:
     my_dict = yaml.safe_load(f)
 
 def processImage(infile):
     try:
         im = Image.open(infile)
 
-        files = glob.glob(os.path.dirname(os.path.realpath(__file__))+'/images/*')
+        files = glob.glob(script_dir+'/images/*')
         for f in files:
             os.remove(f)
 
@@ -46,7 +48,7 @@ def processImage(infile):
     try:
         while 1:
 
-            path = os.path.dirname(os.path.realpath(__file__))+'/images/foo'+str(i)+'.png'
+            path = script_dir+'/images/foo'+str(i)+'.png'
             #im.putpalette(mypalette)
             new_im = Image.new("RGBA", im.size)
             new_im.paste(im)
@@ -135,7 +137,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     os.remove('temp.html')
 
 def images_to_mp4(output_file,fps,last_duration):
-    base_dir = os.path.dirname(os.path.realpath(__file__))+'/images'
+    base_dir = script_dir+'/images'
     
     filenames = next(os.walk(base_dir), (None, None, []))[2]  # [] if no file
     
@@ -152,10 +154,10 @@ def images_to_mp4(output_file,fps,last_duration):
 
 #set alpha videos to main videos
 def vdo_with_alpha(lowerThird = None, videoFile=None, outputFile= None):
-    tmpVid = cv2.VideoCapture(videoFile)
+    tmpVid = cv2.VideoCapture(script_dir+'/'+videoFile)
     framespersecond = float(tmpVid.get(cv2.CAP_PROP_FPS))
     
-    video_clip = VideoFileClip(videoFile, target_resolution=(1920,1080))
+    video_clip = VideoFileClip(script_dir+'/'+videoFile, target_resolution=(1920,1080))
     
     overlay_clip = VideoFileClip(lowerThird, has_mask=True, target_resolution=(1920,1080))
     overlay_clip = overlay_clip.with_end(video_clip.duration)
@@ -164,7 +166,7 @@ def vdo_with_alpha(lowerThird = None, videoFile=None, outputFile= None):
     final_video = CompositeVideoClip([video_clip, overlay_clip])
     
     final_video.write_videofile(
-        outputFile,
+        script_dir+'/'+outputFile,
         fps=framespersecond,
         remove_temp=True,
         codec="libx264",
@@ -324,8 +326,8 @@ with open(my_dict['json_path'],'r') as f:
                     titleCopy = my_dict['main_output'] + my_dict['title_svg']
                     dateCopy  = my_dict['main_output'] + my_dict['date_svg']
 
-                    shutil.copyfile(os.path.dirname(os.path.realpath(__file__))+'/'+my_dict['title_svg'], titleCopy)
-                    shutil.copyfile(os.path.dirname(os.path.realpath(__file__))+'/'+my_dict['date_svg'], dateCopy) 
+                    shutil.copyfile(script_dir+'/'+my_dict['title_svg'], titleCopy)
+                    shutil.copyfile(script_dir+'/'+my_dict['date_svg'], dateCopy) 
                     
                     #we sended them to public folder so no need to update mail files
                     editSvg(titleCopy,'{title}',p['title'])
