@@ -307,8 +307,9 @@ with open(my_dict['json_path'],'r') as f:
 
                 start_time = datetime.datetime.now()
                 #set status as working
+                p['status'] = 'preparing'
                 d['status'] = 'preparing' # update script list status
-                #updateStatus(d)
+                updateStatus(d)
 
                 p['title'] = p['title'] if 'title' in p else 'Not Setted'
                 p['day']   = p['day'] if 'day'in p else datetime.datetime.today().day # on aydem side of the project check this value for mail sending..
