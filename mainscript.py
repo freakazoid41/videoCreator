@@ -217,7 +217,7 @@ def createMovie(output = "output.mp4" , title = 'EXP',date = 'EXP'):
   createVoice(date,audio_output_dir+'talk2.wav')
 
 
-  if not my_file.is_file(audio_output_dir+'talk3.wav'):
+  if not Path(audio_output_dir+'talk3.wav').exists():
     createVoice(my_dict['script1'],audio_output_dir+'talk3.wav')
     createVoice(my_dict['script2'],audio_output_dir+'talk4.wav')
     createVoice(my_dict['script3'],audio_output_dir+'talk5.wav')
