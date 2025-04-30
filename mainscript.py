@@ -301,8 +301,6 @@ def setLockFile(lock = True):
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
     f.close()
-    print(d['status'])
-    exit()
     #if new list ready start to creating for persons
     if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
         #set lock file 
@@ -315,7 +313,7 @@ with open(my_dict['json_path'],'r') as f:
 
             if 'status' not in p:
                 
-                #try:
+                try:
 
                     start_time = datetime.datetime.now()
                     #set status as working
@@ -380,11 +378,11 @@ with open(my_dict['json_path'],'r') as f:
                     #updateStatus(d)
 
                     break ## always work for only one row and exit 
-                #except Exception as e:
-                 #   print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+                except Exception as e:
+                    print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
 
-                  #  del p['status']
-                  #  updateStatus(d)
+                    del p['status']
+                    updateStatus(d)
             
 
         #last 
