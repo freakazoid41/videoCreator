@@ -5,6 +5,8 @@ import sys
 from PIL import Image
 from PIL import GifImagePlugin
 import os
+import os.path
+
 import glob
 import shutil
 import cv2
@@ -21,6 +23,7 @@ import datetime
 from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
+
 
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -217,7 +220,7 @@ def createMovie(output = "output.mp4" , title = 'EXP',date = 'EXP'):
   createVoice(date,audio_output_dir+'talk2.wav')
 
 
-  if not Path(audio_output_dir+'talk3.wav').exists():
+  if not (os.path.isfile(audio_output_dir+'talk3.wav') and os.access(audio_output_dir+'talk3.wav', os.R_OK)):
     createVoice(my_dict['script1'],audio_output_dir+'talk3.wav')
     createVoice(my_dict['script2'],audio_output_dir+'talk4.wav')
     createVoice(my_dict['script3'],audio_output_dir+'talk5.wav')
