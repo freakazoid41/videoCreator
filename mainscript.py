@@ -328,6 +328,9 @@ with open(my_dict['json_path'],'r') as f:
 
                     if(str(p['day']).startswith("0")): p['day'] = p['day'][1:]
 
+                    print(p['day'])
+                    exit()
+
                     print('transactions is started for => '+p['title'])
                     #copy svgs to public location first
                     # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
