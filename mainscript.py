@@ -185,23 +185,30 @@ def createSilencePart(duration):
   return AudioFileClip(audio_output_dir+'silence.wav')
 #this method will create text to speech voice file
 def createVoice(text,output):
-  client = ElevenLabs(
-    api_key=my_dict['remote_key'],
-  )
-  audio_stream = client.text_to_speech.convert_as_stream(
-      text=text,
-      voice_id="mBUB5zYuPwfVE6DTcEjf",
-      model_id="eleven_multilingual_v2"
-  )
+    #try:
 
-  # option 1: play the streamed audio locally
-  #stream(audio_stream)
+        client = ElevenLabs(
+            api_key=my_dict['remote_key'],
+        )
+        audio_stream = client.text_to_speech.convert_as_stream(
+            text=text,
+            voice_id="mBUB5zYuPwfVE6DTcEjf",
+            model_id="eleven_multilingual_v2"
+        )
 
-  # option 2: process the audio bytes manually
-  with open(output, "wb") as binary_file:
-    for chunk in audio_stream:
-        if isinstance(chunk, bytes):
-          binary_file.write(chunk)
+        # option 1: play the streamed audio locally
+        #stream(audio_stream)
+
+        # option 2: process the audio bytes manually
+        with open(output, "wb") as binary_file:
+            for chunk in audio_stream:
+                if isinstance(chunk, bytes):
+                binary_file.write(chunk)
+    #except Exception as e:
+        #bypass request limit until its accept
+     #   print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+     #   createVoice(text,output)
+
 #this method is combile all of them to one mp4 file
 def createMovie(output = "output.mp4" , title = 'EXP',date = 'EXP'):
 
