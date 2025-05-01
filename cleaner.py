@@ -32,7 +32,7 @@ for f in filenames:
         print(f+' => is too old .. removing.. ('+time.ctime(fileDate)+')')
         #os.unlink(my_dict['main_output']+'/'+f)
 
-print(oldCount + ' => Old File Founded and Removed..')
+print(str(oldCount) + ' => Old File Founded and Removed..')
 
 
     
