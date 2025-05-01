@@ -20,9 +20,19 @@ def numOfDays(date1, date2):
 
 
 filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no file
+print(len(filenames) + ' => Total File Founded..')
 
+oldCount  = 0
 for f in filenames:
     fileDate = os.path.getctime(my_dict['main_output']+'/'+f)
+    dayDiff  = numOfDays(datetime.fromtimestamp(fileDate) , datetime.now())
 
-    print(numOfDays(datetime.fromtimestamp(fileDate) , datetime.now()))
+    if dayDiff > 14 : 
+        oldCount += 1
+        print(f+' => is too old .. removing.. ('+time.ctime(fileDate)+')')
+        #os.unlink(my_dict['main_output']+'/'+f)
+
+print(oldCount + ' => Old File Founded and Removed..')
+
+
     
