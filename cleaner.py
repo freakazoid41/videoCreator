@@ -1,7 +1,7 @@
 import yaml
 import os
 import time
-
+from datetime import date
 from os import walk
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -10,7 +10,19 @@ with open(script_dir+'/settings.yaml') as f:
     my_dict = yaml.safe_load(f)
 
 
+def numOfDays(date1, date2):
+  #check which date is greater to avoid days output in -ve number
+    if date2 > date1:   
+        return (date2-date1).days
+    else:
+        return (date1-date2).days
+
+
+
 filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no file
 
 for f in filenames:
-    print(time.ctime(os.path.getctime(my_dict['main_output']+'/'+f)))
+    fileDate = time.ctime(os.path.getctime(my_dict['main_output']+'/'+f))
+
+    print(numOfDays(fileDate , date()))
+    
