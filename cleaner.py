@@ -10,4 +10,5 @@ with open(script_dir+'/settings.yaml') as f:
 
 filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no file
 
-print(filenames)
+for f in filenames:
+    print(os.path.getctime(my_dict['main_output']+'/'+f))
