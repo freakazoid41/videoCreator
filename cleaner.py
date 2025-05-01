@@ -1,7 +1,7 @@
 import yaml
 import os
 import time
-
+from datetime import date,datetime
 from os import walk
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -24,5 +24,5 @@ filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no 
 for f in filenames:
     fileDate = time.ctime(os.path.getctime(my_dict['main_output']+'/'+f))
 
-    print(numOfDays(fileDate , time.ctime()))
+    print(numOfDays(fileDate , datetime.now()))
     
