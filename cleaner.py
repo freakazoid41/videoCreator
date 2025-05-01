@@ -1,5 +1,7 @@
 import yaml
 import os
+import time
+
 from os import walk
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -11,4 +13,4 @@ with open(script_dir+'/settings.yaml') as f:
 filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no file
 
 for f in filenames:
-    print(os.path.getctime(my_dict['main_output']+'/'+f))
+    print(time.ctime(os.path.getctime(my_dict['main_output']+'/'+f)))
