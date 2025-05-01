@@ -20,7 +20,7 @@ def numOfDays(date1, date2):
 
 
 filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no file
-print(len(filenames) + ' => Total File Founded..')
+print(str(len(filenames)) + ' => Total File Founded..')
 
 oldCount  = 0
 for f in filenames:
