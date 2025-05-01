@@ -24,5 +24,5 @@ filenames = next(walk(my_dict['main_output']), (None, None, []))[2]  # [] if no 
 for f in filenames:
     fileDate = os.path.getctime(my_dict['main_output']+'/'+f)
 
-    print(numOfDays(fileDate , datetime.now()))
+    print(numOfDays(datetime.fromtimestamp(fileDate) , datetime.now()))
     
