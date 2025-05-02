@@ -203,7 +203,7 @@ def createVoice(text,output):
         with open(output, "wb") as binary_file:
             for chunk in audio_stream:
                 if isinstance(chunk, bytes):
-                binary_file.write(chunk)
+                    binary_file.write(chunk)
     #except Exception as e:
         #bypass request limit until its accept
      #   print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
