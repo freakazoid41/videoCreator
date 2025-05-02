@@ -27,7 +27,7 @@ for f in filenames:
     fileDate = os.path.getctime(my_dict['main_output']+'/'+f)
     dayDiff  = numOfDays(datetime.fromtimestamp(fileDate) , datetime.now())
 
-    if dayDiff > 0 : 
+    if dayDiff > 14 : 
         oldCount += 1
         print(f+' => is too old .. removing.. ('+time.ctime(fileDate)+')')
         #os.unlink(my_dict['main_output']+'/'+f)
