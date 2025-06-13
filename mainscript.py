@@ -408,7 +408,6 @@ with open(my_dict['json_path'],'r') as f:
                     p['duration'] = str(end_time - start_time)
                     p['status'] = 'ready'
                     #updateStatus(d)
-
                     break ## always work for only one row and exit 
                 except Exception as e:
                     print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
@@ -417,6 +416,9 @@ with open(my_dict['json_path'],'r') as f:
                     updateStatus(d)
 
                     sendErrorMail(str(e))
+                    break ## always work for only one row and exit 
+                   
+                
             
 
         #last 
