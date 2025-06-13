@@ -314,7 +314,7 @@ def sendErrorMail(detail):
     receiver_email = "kadir.bozat@talk.com.tr"
 
     # Plain text content
-    text = "Doğum Günü Cronu Arıza Vermeye Başladı"
+    text = detail
 
     # Create MIMEText object
     message = MIMEText(text, "plain")
