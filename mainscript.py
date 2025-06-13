@@ -27,6 +27,7 @@ from elevenlabs.client import ElevenLabs
 from elevenlabs import play
 
 ## sometimes chrome is stays open on server after script teminated for some reason run : pkill -9 chrome : for session clean
+## also run rm /var/www/html/dogumgunu.aydemenerji.com.tr/public/birth.json.lock after teminate
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 output_dir = script_dir+'/alphavideos/'
