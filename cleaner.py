@@ -30,7 +30,7 @@ for f in filenames:
     if dayDiff > 14 : 
         oldCount += 1
         print(f+' => is too old .. removing.. ('+time.ctime(fileDate)+')')
-        #os.unlink(my_dict['main_output']+'/'+f)
+        os.unlink(my_dict['main_output']+'/'+f)
 
 print(str(oldCount) + ' => Old File Founded and Removed..')
 
