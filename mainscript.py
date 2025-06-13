@@ -26,7 +26,7 @@ from elevenlabs import stream
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
 
-
+## sometimes chrome is stays open on server after script teminated for some reason run : pkill -9 chrome : for session clean
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 output_dir = script_dir+'/alphavideos/'
