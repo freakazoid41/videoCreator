@@ -342,7 +342,7 @@ with open(my_dict['json_path'],'r') as f:
         
         for p in d['personList']:
 
-            if 'status' not in p:
+            if 'status' not in p or p['status'] == 'error':
                 #set status as working
                 p['status'] = 'preparing'
                 d['status'] = 'preparing' # update script list status
@@ -412,7 +412,7 @@ with open(my_dict['json_path'],'r') as f:
                 except Exception as e:
                     print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
 
-                    del p['status']
+                    p['status'] == 'error'
                     updateStatus(d)
 
                     sendErrorMail(str(e))
