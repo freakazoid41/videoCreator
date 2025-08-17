@@ -74,7 +74,7 @@ def processImage(infile):
             
             new_im.save(path)
             
-
+            print ('Created : '+path)
 
             i += 1
             im.seek(im.tell() + 1)
