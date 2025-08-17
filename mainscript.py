@@ -387,6 +387,7 @@ with open(my_dict['json_path'],'r') as f:
                     #turn svg's to gif then make them alpha video
                     for sv in [my_dict['title_svg'],my_dict['date_svg']]:
                         svg_to_gif(sv,sv+".gif",1920,1080,80)
+                        print(output_dir+sv+".gif")
                         processImage(output_dir+sv+".gif")
                         images_to_mp4(output_dir+sv+'alpha.webm',60,10)
                     
