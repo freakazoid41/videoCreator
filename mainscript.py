@@ -118,7 +118,6 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     #time.sleep(1)
     for _ in range(frames):
         # Capture the current state of the page
-        print('Frame Getted..')
         screenshot = driver.get_screenshot_as_base64()
         im = Image.open(BytesIO(base64.b64decode(screenshot)))
 
