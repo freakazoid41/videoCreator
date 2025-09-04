@@ -327,6 +327,15 @@ def sendErrorMail(detail):
         server.starttls()  # Secure the connection
         server.login(login, password)
         server.sendmail(sender_email, receiver_email, message.as_string())
+    
+     
+    message["To"] = 'bilge.bilir@talk.com.tr'
+
+    # Send the email
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.starttls()  # Secure the connection
+        server.login(login, password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
 #get json file from api folder
 with open(my_dict['json_path'],'r') as f:
