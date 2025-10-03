@@ -426,6 +426,7 @@ with open(my_dict['json_path'],'r') as f:
                     updateStatus(d)
 
                     sendErrorMail(str(e))
+                    setLockFile(False)
 
                 break ## always work for only one row and exit  
                 
