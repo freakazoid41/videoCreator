@@ -134,7 +134,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
         duration=frame_duration,
         loop=0
     )
-    print(gif_file+' Created..')
+    writeLog(gif_file+' Created..')
     
     # Clean up
     driver.quit()
@@ -208,7 +208,7 @@ def createVoice(text,output):
                     binary_file.write(chunk)
     #except Exception as e:
         #bypass request limit until its accept
-     #   print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+     #   writeLog('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
      #   createVoice(text,output)
 
 #this method is combile all of them to one mp4 file
@@ -337,6 +337,9 @@ def sendErrorMail(detail):
         server.login(login, password)
         server.sendmail(sender_email, receiver_email, message.as_string())
 
+def writeLog(message):
+    writeLog(str(datetime.datetime.now()) + ' - ' + message + '\n')
+
 #get json file from api folder
 with open(my_dict['json_path'],'r') as f:
     d = json.load(f)
@@ -344,7 +347,7 @@ with open(my_dict['json_path'],'r') as f:
     #if new list ready start to creating for persons
     if (d['status'] == 'waiting' or d['status'] == 'preparing') and not os.path.exists(my_dict['json_path']+'.lock'):
         #set lock file 
-        print('Cron Started..')
+        writeLog('Cron Started..')
         setLockFile(True)
         
         d['status'] = 'ended' ## if all videos are ended left as it is 
@@ -368,7 +371,7 @@ with open(my_dict['json_path'],'r') as f:
 
                     if(str(p['day']).startswith("0")): p['day'] = p['day'][1:]
 
-                    print('transactions is started for => '+p['title'])
+                    writeLog('transactions is started for => '+p['title'])
                     #copy svgs to public location first
                     # we are sending svg files to public address because of permission problems (normally we can use from local folder but it didn't work)
                     titleCopy = my_dict['main_output'] + my_dict['title_svg']
@@ -395,7 +398,7 @@ with open(my_dict['json_path'],'r') as f:
                     #turn svg's to gif then make them alpha video
                     for sv in [my_dict['title_svg'],my_dict['date_svg']]:
                         svg_to_gif(sv,sv+".gif",1920,1080,80)
-                        print(output_dir+sv+".gif")
+                        writeLog(output_dir+sv+".gif")
                         processImage(output_dir+sv+".gif")
                         images_to_mp4(output_dir+sv+'alpha.webm',60,10)
                     
@@ -420,7 +423,7 @@ with open(my_dict['json_path'],'r') as f:
                     #updateStatus(d)
                     
                 except Exception as e:
-                    print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+                    writeLog('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
 
                     p['status'] = 'error'
                     updateStatus(d)
@@ -442,7 +445,7 @@ with open(my_dict['json_path'],'r') as f:
         #unset lock file
         setLockFile(False)
     else :
-        print('Cron Still Locked ....')    
+        writeLog('Cron Still Locked ....')    
 
    
 
