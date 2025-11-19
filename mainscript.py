@@ -338,7 +338,7 @@ def sendErrorMail(detail):
         server.sendmail(sender_email, receiver_email, message.as_string())
 
 def writeLog(message):
-    writeLog(str(datetime.datetime.now()) + ' - ' + message + '\n')
+    print(str(datetime.datetime.now()) + ' - ' + message + '\n')
 
 #get json file from api folder
 with open(my_dict['json_path'],'r') as f:
