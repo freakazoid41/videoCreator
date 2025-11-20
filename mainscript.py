@@ -311,7 +311,7 @@ def sendErrorMail(detail):
     password = "hrlkynudtcmfhreb"  
                 
     sender_email = "kbhiteam@gmail.com"
-    receiver_email = "kadir.bozat@talk.com.tr"
+    receiver_email = "kadir@kontent.com.tr"
 
     # Plain text content
     text = detail
