@@ -424,13 +424,14 @@ with open(my_dict['json_path'],'r') as f:
                     #updateStatus(d)
                     
                 except Exception as e:
-                    writeLog('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+                   
 
                     p['status'] = 'error'
                     updateStatus(d)
 
                     sendErrorMail(str(e))
                     setLockFile(False)
+                    writeLog(str('Error on line {}'.format(sys.exc_info()[-1].tb_lineno)))
 
                 break ## always work for only one row and exit  
                 
