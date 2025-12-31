@@ -144,71 +144,72 @@ def processImage(infile):
         pass # end of sequence
 
 def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
-    
-    # Set up a headless Chrome browser
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument('--profile-directory=Default')
-
-    
-    chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data3")
-    
-    driver = get_chrome_driver(width, height)
-
-    # Create a simple HTML file to display the SVG
-    html_content = f"""
-    <html>
-    <body style="margin:0;padding:0;overflow:hidden;">
-        <object data="{my_dict['svg_location'] + svg_file}" width="1920" height="1080"></object>
-    </body>
-    </html>
-    """
-    with open('temp.html', 'w') as f:
-        f.write(html_content)
-    # we are sending html to public address because of permission problems (normally we can use from local folder but it didn't work)
-    shutil.copyfile('temp.html', my_dict['main_output'] + 'temp.html')
-    # Open the HTML file in the browser using a valid URL (file:// for local files)
-    # prefer main_output copy if available
-    temp_path = os.path.abspath(my_dict['main_output'] + 'temp.html')
-    if my_dict.get('svg_location', '').startswith('http'):
-        url = my_dict['svg_location'] + "temp.html"
-    else:
-        url = 'file://' + temp_path
-    driver.get(url)
-    driver.set_window_size(width, height)
-
-    # Capture frames
-    frame_duration = duration / frames
-    frame_images = []
-    
-    #time.sleep(1)
-    for _ in range(frames):
-        # Capture the current state of the page
-        screenshot = driver.get_screenshot_as_base64()
-        im = Image.open(BytesIO(base64.b64decode(screenshot)))
-
-        im = im.resize((width, height), Image.LANCZOS)
-
-        frame_images.append(im)
-        time.sleep(frame_duration / 1000)  # Wait for next frame
-
-    # Save as GIF
-    frame_images[0].save(
-        output_dir + gif_file,
-        save_all=True,
-        append_images=frame_images[1:],
-        duration=frame_duration,
-        loop=0
-    )
-    writeLog(gif_file+' Created..')
-    
-    # Clean up
-    # don't quit shared driver here; it will be reused. cleanup registered on exit
     try:
-        os.remove('temp.html')
-    except Exception:
-        pass
+        # Set up a headless Chrome browser
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument('--profile-directory=Default')
+        chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data3")
+        
+        driver = get_chrome_driver(width, height)
+
+        # Create a simple HTML file to display the SVG
+        html_content = f"""
+        <html>
+        <body style="margin:0;padding:0;overflow:hidden;">
+            <object data="{my_dict['svg_location'] + svg_file}" width="1920" height="1080"></object>
+        </body>
+        </html>
+        """
+        with open('temp.html', 'w') as f:
+            f.write(html_content)
+        # we are sending html to public address because of permission problems (normally we can use from local folder but it didn't work)
+        shutil.copyfile('temp.html', my_dict['main_output'] + 'temp.html')
+        # Open the HTML file in the browser using a valid URL (file:// for local files)
+        # prefer main_output copy if available
+        temp_path = os.path.abspath(my_dict['main_output'] + 'temp.html')
+        if my_dict.get('svg_location', '').startswith('http'):
+            url = my_dict['svg_location'] + "temp.html"
+        else:
+            url = 'file://' + temp_path
+        driver.get(url)
+        driver.set_window_size(width, height)
+
+        # Capture frames
+        frame_duration = duration / frames
+        frame_images = []
+        
+        #time.sleep(1)
+        for _ in range(frames):
+            # Capture the current state of the page
+            screenshot = driver.get_screenshot_as_base64()
+            im = Image.open(BytesIO(base64.b64decode(screenshot)))
+
+            im = im.resize((width, height), Image.LANCZOS)
+
+            frame_images.append(im)
+            time.sleep(frame_duration / 1000)  # Wait for next frame
+
+        # Save as GIF
+        frame_images[0].save(
+            output_dir + gif_file,
+            save_all=True,
+            append_images=frame_images[1:],
+            duration=frame_duration,
+            loop=0
+        )
+        writeLog(gif_file+' Created..')
+        
+        # Clean up
+        # don't quit shared driver here; it will be reused. cleanup registered on exit
+        try:
+            os.remove('temp.html')
+        except Exception:
+            pass
+    except Exception as e:
+        writeLog(f'Error in svg_to_gif for {svg_file}: {str(e)} at line {sys.exc_info()[-1].tb_lineno}')
+        raise
 
 def images_to_mp4(output_file, fps, last_duration):
     """Create a video from images using ffmpeg (concat demuxer).

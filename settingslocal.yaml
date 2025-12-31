@@ -2,7 +2,7 @@ json_path : 'birth.json'
 main_output : './temp/'
 title_svg: title.svg
 date_svg: date.svg
-svg_location : '/Users/freakazoid41/Documents/Projects/videoCreator/temp/'
+svg_location : './temp/'
 script_title : 'Selam {title}.'
 script_date  : 'Bugün {date}.'
 script1 : 'Yeni Bir Gün İçin Güneş Doğdu, Seninle Birlikte Yükseliyor ve Parlıyor!'
