@@ -511,6 +511,7 @@ def updateStatus(d):
         json.dump(d, f, ensure_ascii=False)
 
 def setLockFile(lock = True):
+    return True ## temp bypass
     if lock :
         with open(my_dict['json_path']+'.lock', 'w', encoding='utf8') as f:
             json.dump('{"locked" : "true"}', f, ensure_ascii=False)
