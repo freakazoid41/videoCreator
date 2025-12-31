@@ -152,7 +152,7 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
     chrome_options.add_argument('--profile-directory=Default')
 
     
-    chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data2")
+    chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data3")
     
     driver = get_chrome_driver(width, height)
 
