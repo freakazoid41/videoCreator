@@ -17,6 +17,7 @@ import subprocess
 import imageio_ffmpeg
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import WebDriverException
 import base64
 from io import BytesIO
 import json
@@ -47,35 +48,75 @@ def get_chrome_driver(width=1920, height=1080):
     Caller should not quit the driver; `close_chrome_driver()` will be called at exit.
     """
     global _shared_chrome_driver
-    try:
-        if _shared_chrome_driver is not None:
-            # try to reuse existing driver
+    # Try to reuse existing driver
+    if _shared_chrome_driver is not None:
+        try:
+            _shared_chrome_driver.set_window_size(width, height)
+            return _shared_chrome_driver
+        except Exception:
             try:
-                _shared_chrome_driver.set_window_size(width, height)
-                return _shared_chrome_driver
+                _shared_chrome_driver.quit()
             except Exception:
+                pass
+            _shared_chrome_driver = None
+
+    # Attempt to create a new driver with retries
+    last_exc = None
+    attempts = 3
+    for attempt in range(1, attempts + 1):
+        try:
+            chrome_options = Options()
+            # modern headless flag; fallback to legacy if needed
+            try:
+                chrome_options.add_argument('--headless=new')
+            except Exception:
+                chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument('--disable-gpu')
+            chrome_options.add_argument('--profile-directory=Default')
+            chrome_options.add_argument('--user-data-dir=/tmp/chrome-user-data2')
+            chrome_options.add_argument(f'--window-size={width},{height}')
+            # ensure consistent DPR
+            chrome_options.add_argument('--force-device-scale-factor=1')
+            chrome_options.add_argument('--high-dpi-support=1')
+
+            _shared_chrome_driver = webdriver.Chrome(options=chrome_options)
+            # quick sanity check
+            try:
+                _shared_chrome_driver.execute_script('return 1')
+            except Exception:
+                # if execute fails, quit and raise to retry
                 try:
                     _shared_chrome_driver.quit()
                 except Exception:
                     pass
                 _shared_chrome_driver = None
+                raise
 
-        # Lazy-create new driver
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument('--profile-directory=Default')
-        chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data2")
-        # ensure consistent DPR
-        chrome_options.add_argument('--force-device-scale-factor=1')
-        chrome_options.add_argument('--high-dpi-support=1')
+            _shared_chrome_driver.set_window_size(width, height)
+            return _shared_chrome_driver
+        except WebDriverException as e:
+            last_exc = e
+            try:
+                writeLog(f'get_chrome_driver attempt {attempt} failed: {str(e)}')
+            except Exception:
+                pass
+            time.sleep(1 * attempt)
+            continue
+        except Exception as e:
+            last_exc = e
+            try:
+                writeLog(f'get_chrome_driver unexpected error on attempt {attempt}: {str(e)}')
+            except Exception:
+                pass
+            time.sleep(1 * attempt)
+            continue
 
-        _shared_chrome_driver = webdriver.Chrome(options=chrome_options)
-        _shared_chrome_driver.set_window_size(width, height)
-        return _shared_chrome_driver
-    except Exception:
-        # Bubble up to caller; they will handle logging/errors
-        raise
+    # If we reach here, all attempts failed
+    if last_exc:
+        raise last_exc
+    raise RuntimeError('Failed to start Chrome WebDriver')
 
 def close_chrome_driver():
     global _shared_chrome_driver
@@ -154,11 +195,18 @@ def svg_to_gif(svg_file, gif_file, width, height, duration=3000, frames=60):
         
         driver = get_chrome_driver(width, height)
 
-        # Create a simple HTML file to display the SVG
+        # Create a simple HTML file to display the SVG. Use an absolute file:// URL
+        # pointing at the copy we placed in `main_output` so Chrome can load it reliably.
+        if my_dict.get('svg_location', '').startswith('http'):
+            svg_data = my_dict['svg_location'] + svg_file
+        else:
+            svg_abs_path = os.path.abspath(os.path.join(my_dict['main_output'], svg_file))
+            svg_data = 'file://' + svg_abs_path
+
         html_content = f"""
         <html>
         <body style="margin:0;padding:0;overflow:hidden;">
-            <object data="{my_dict['svg_location'] + svg_file}" width="1920" height="1080"></object>
+            <object data="{svg_data}" width="{width}" height="{height}"></object>
         </body>
         </html>
         """
@@ -507,12 +555,12 @@ def editSvg(location,key,text):
     fin.close()
 
 def updateStatus(d):
-    #return True ## temp bypass
+    return True ## temp bypass
     with open(my_dict['json_path'], 'w', encoding='utf8') as f:
         json.dump(d, f, ensure_ascii=False)
 
 def setLockFile(lock = True):
-    #return True ## temp bypass
+    return True ## temp bypass
     if lock :
         with open(my_dict['json_path']+'.lock', 'w', encoding='utf8') as f:
             json.dump('{"locked" : "true"}', f, ensure_ascii=False)

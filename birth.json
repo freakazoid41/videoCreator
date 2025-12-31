@@ -1,1 +1,1 @@
-{"status": "preparing", "personList": [{"id": "test-1", "mail": "test@example.com", "title": "PerfTest", "day": "1", "month": "January"}]}
+{"status": "preparing", "personList": [{"id": "test-1", "mail": "test@example.com", "title": "PerfTest", "day": "1", "month": "January", "status": "ready", "filename": "output-20251231171506.mp4", "duration": "0:00:35.598977"}]}
