@@ -1,0 +1,11 @@
+json_path : 'birth.json'
+main_output : './temp/'
+title_svg: title.svg
+date_svg: date.svg
+svg_location : '/Users/freakazoid41/Documents/Projects/videoCreator/temp/'
+script_title : 'Selam {title}.'
+script_date  : 'Bugün {date}.'
+script1 : 'Yeni Bir Gün İçin Güneş Doğdu, Seninle Birlikte Yükseliyor ve Parlıyor!'
+script2 : 'Hayatın Sana Mutluluk ve Başarılar Getirmesini Dileriz.'
+script3 : 'Doğum Günün Kutlu Olsun!'
+remote_key : 'sk_521d501f9fbb11de13bbe7c240a38f033ac1ecf29a12dcf0'

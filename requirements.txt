@@ -38,3 +38,4 @@ webencodings==0.5.1
 websockets==14.2
 natsort==8.4.0
 selenium==4.29.0
+PyYAML
