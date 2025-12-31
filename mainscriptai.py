@@ -506,6 +506,7 @@ def editSvg(location,key,text):
     fin.close()
 
 def updateStatus(d):
+    return True ## temp bypass
     with open(my_dict['json_path'], 'w', encoding='utf8') as f:
         json.dump(d, f, ensure_ascii=False)
 
