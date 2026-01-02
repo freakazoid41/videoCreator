@@ -407,6 +407,8 @@ def createMovie(output="output.mp4", title='EXP', date='EXP'):
     # ffmpeg executable
     try:
         import imageio_ffmpeg
+        import hashlib
+        import base64
 
         ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
     except Exception:
@@ -630,6 +632,21 @@ with open(my_dict['json_path'],'r') as f:
                 updateStatus(d)
                 try:
 
+                    if 'outputCode' in p:
+                        # base64-encode outputCode and comment out the trailing +".mp4"
+                        # (this ensures the remainder of the original line is ignored)
+                        _code_b64 = base64.urlsafe_b64encode(p['outputCode'].encode('utf-8')).decode('ascii').rstrip('=')
+                        filename = "output-" + _code_b64 + ".mp4"
+                    else:
+                        filename =  "output-"+str(datetime.datetime.now().strftime('%Y%m%d%H%M%S'))+".mp4"
+
+                    ## if file exist (same named person for same day) gice same video and jump to next
+                    if  os.path.isfile(my_dict['main_output']+filename):
+                        writeLog('File already exist for => '+p['title']+' Skipping video creation..')
+                        p['status']   = 'ready'
+                        p['filename'] = filename
+                        updateStatus(d)
+                        continue
                     start_time = datetime.datetime.now()
                    
                     
@@ -655,15 +672,6 @@ with open(my_dict['json_path'],'r') as f:
                     editSvg(dateCopy,'{month}',p['month'])
 
                     
-                    '''svg_to_gif(my_dict['title_svg'],my_dict['title_svg']+".gif",1920,1080,80)
-                    processImage(output_dir+my_dict['title_svg']+".gif")
-                    images_to_mp4(output_dir+my_dict['title_svg']+'alpha.webm',60,10)'''
-
-                    
-                    '''svg_to_gif(my_dict['date_svg'],my_dict['date_svg']+".gif",1920,1080,80)
-                    processImage(output_dir+'/'+my_dict['date_svg']+".gif")
-                    images_to_mp4(output_dir+'/'+my_dict['date_svg']+'alpha.webm',60,10)'''
-
                     #turn svg's to gif then make them alpha video
                     for sv in [my_dict['title_svg'],my_dict['date_svg']]:
                         svg_to_gif(sv,sv+".gif",1920,1080,80)
@@ -675,7 +683,7 @@ with open(my_dict['json_path'],'r') as f:
                     vdo_with_alpha(output_dir+my_dict['title_svg']+'alpha.webm', "videos/dogumgunu-video1.mp4", "dogumgunu-video1-edited.mp4")
                     vdo_with_alpha(output_dir+my_dict['date_svg']+'alpha.webm', "videos/dogumgunu-video2.mp4", "dogumgunu-video2-edited.mp4")
                     
-                    filename =  "output-"+(p['outputCode'] if 'outputCode' in p else str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')))+".mp4"
+                    
 
                     p['filename'] = filename
 
